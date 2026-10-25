@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
     <meta name="color-scheme" content="light dark" />
     <link rel="icon" href="data:," />
-    <title>Emli — Legal Documents</title>
+    <title>Emli — Creator publishing tool for TikTok</title>
     <style>
       :root {
         --bg: #fbfaf7;
@@ -144,6 +144,106 @@
         max-width: 640px;
       }
 
+      /* ---------- Product / connect / post form ---------- */
+      .panel {
+        background: var(--surface);
+        border: 1px solid var(--rule);
+        border-radius: 10px;
+        padding: 24px;
+        box-shadow: var(--shadow);
+        margin-top: 30px;
+        max-width: 720px;
+      }
+      .panel h2 { font-size: 22px; margin: 0 0 10px; line-height: 1.3; }
+      .panel h3 { font-size: 17px; margin: 22px 0 8px; }
+      .panel p { color: var(--ink-soft); margin: 0 0 12px; font-size: 16px; }
+      .btn {
+        display: inline-block;
+        font-family: ui-sans-system, -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+        font-size: 15px;
+        font-weight: 700;
+        color: #ffffff;
+        background: var(--accent);
+        border: 1px solid var(--accent);
+        border-radius: 999px;
+        padding: 11px 22px;
+        cursor: pointer;
+        text-decoration: none;
+      }
+      .btn:hover { filter: brightness(1.08); }
+      .btn.secondary {
+        color: var(--accent);
+        background: transparent;
+      }
+      .field { margin: 0 0 16px; }
+      .field label {
+        display: block;
+        font-family: ui-sans-system, -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+        font-size: 13.5px;
+        font-weight: 700;
+        color: var(--ink);
+        margin-bottom: 6px;
+      }
+      .field input[type="text"],
+      .field select {
+        width: 100%;
+        font: inherit;
+        font-size: 16px;
+        color: var(--ink);
+        background: var(--bg);
+        border: 1px solid var(--rule);
+        border-radius: 8px;
+        padding: 9px 12px;
+      }
+      .check {
+        display: flex;
+        align-items: flex-start;
+        gap: 10px;
+        margin: 0 0 10px;
+        font-size: 15.5px;
+        color: var(--ink-soft);
+      }
+      .check input { margin-top: 5px; width: 17px; height: 17px; flex: none; }
+      .check .hint { display: block; font-size: 13.5px; color: var(--ink-faint); }
+      .copyblock {
+        font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+        font-size: 13.5px;
+        line-height: 1.5;
+        word-break: break-all;
+        white-space: pre-wrap;
+        background: var(--bg);
+        border: 1px solid var(--rule);
+        border-radius: 8px;
+        padding: 12px 14px;
+        margin: 0 0 10px;
+        color: var(--ink);
+      }
+      .status-ok {
+        background: var(--accent-soft);
+        border-radius: 8px;
+        padding: 14px 16px;
+        margin: 0 0 16px;
+      }
+      .status-ok p { margin: 0; color: var(--ink); }
+      .status-err {
+        border: 1px solid #b3402a;
+        border-radius: 8px;
+        padding: 14px 16px;
+        margin: 0 0 16px;
+      }
+      .status-err p { margin: 0; color: var(--ink); }
+      .summary-list { margin: 0 0 14px; padding-left: 22px; color: var(--ink-soft); }
+      .summary-list li { margin-bottom: 5px; }
+      .summary-list strong { color: var(--ink); }
+      video.preview {
+        width: 100%;
+        max-height: 320px;
+        border-radius: 8px;
+        background: #000;
+        margin-top: 10px;
+      }
+      .fineprint { font-size: 13.5px; color: var(--ink-faint); }
+
       /* ---------- Legal documents ---------- */
       .doc { padding-top: 44px; max-width: 720px; }
       .doc .kicker {
@@ -229,14 +329,107 @@
       <!-- ================= HOME ================= -->
       <section class="view" id="view-home">
         <div class="intro">
-          <h1>Emli legal documents</h1>
+          <h1>Publish your TikTok videos on your schedule</h1>
           <p>
-            Emli is a personal publishing tool. It uploads videos and photos that you create
-            yourself to your own TikTok account, automatically, on a schedule that you set —
-            using TikTok&rsquo;s official developer APIs and only with your authorization.
+            Emli is a publishing tool for TikTok creators. Each creator signs in with their
+            own TikTok account and authorizes Emli through TikTok&rsquo;s official Login Kit.
+            Emli then uploads the videos and photos that creator made, to that creator&rsquo;s
+            own account, at the times the creator schedules — through TikTok&rsquo;s official
+            Content Posting API.
           </p>
           <p>
-            The two documents below govern that service: how you may use Emli, and how Emli
+            Emli never asks for or stores your TikTok password. The connection runs entirely
+            through TikTok&rsquo;s own authorization screen, and you can revoke it at any time
+            in your TikTok settings.
+          </p>
+        </div>
+
+        <div class="panel" id="connect">
+          <h2>Step 1 — Connect your TikTok account</h2>
+          <p>
+            Continue to TikTok and approve the connection. TikTok will show you exactly which
+            permissions Emli requests before you decide: basic profile information
+            (user.info.basic), publishing videos to your account (video.publish), and uploading
+            videos as drafts (video.upload).
+          </p>
+          <p>
+            <button class="btn" id="connect-btn" type="button">Continue with TikTok</button>
+          </p>
+          <p class="fineprint">
+            After you approve, TikTok sends you back to this page with a one-time authorization
+            code. Step 2 below explains how that code finishes the connection in the Emli
+            scheduler on your computer.
+          </p>
+        </div>
+
+        <div class="panel" id="post">
+          <h2>Prepare a post</h2>
+          <p>
+            Posting as: <strong>your connected TikTok account</strong>. Before anything is
+            published, the Emli scheduler reads your account&rsquo;s current creator info from
+            TikTok and shows the exact account nickname it will post to, so you can confirm it
+            is the right account.
+          </p>
+          <form id="post-form" novalidate>
+            <div class="field">
+              <label for="f-video">Video file</label>
+              <input type="file" id="f-video" accept="video/mp4,video/quicktime,video/webm" />
+              <video class="preview" id="f-preview" controls hidden></video>
+            </div>
+            <div class="field">
+              <label for="f-title">Title</label>
+              <input type="text" id="f-title" maxlength="2200" placeholder="Write the title exactly as it should appear on TikTok" />
+            </div>
+            <div class="field">
+              <label for="f-privacy">Privacy level</label>
+              <select id="f-privacy">
+                <option value="" selected>Select who can see this post&hellip;</option>
+                <option value="PUBLIC_TO_EVERYONE">Everyone (public)</option>
+                <option value="MUTUAL_FOLLOW_FRIENDS">Friends (people you follow who follow you back)</option>
+                <option value="SELF_ONLY">Only me (private)</option>
+              </select>
+            </div>
+            <div class="field">
+              <label>Interactions</label>
+              <label class="check"><input type="checkbox" id="f-allow-comment" /> <span>Allow comments</span></label>
+              <label class="check"><input type="checkbox" id="f-allow-duet" /> <span>Allow duet</span></label>
+              <label class="check"><input type="checkbox" id="f-allow-stitch" /> <span>Allow stitch</span></label>
+              <p class="fineprint">All interactions are off by default. Turn on only the ones you want for this post.</p>
+            </div>
+            <div class="field">
+              <label class="check">
+                <input type="checkbox" id="f-commercial" />
+                <span>Commercial content — this post promotes a brand or product</span>
+              </label>
+              <div id="commercial-opts" hidden>
+                <label class="check">
+                  <input type="checkbox" id="f-brand-own" />
+                  <span>Your brand<span class="hint">Promotional content — you are promoting your own business or brand.</span></span>
+                </label>
+                <label class="check">
+                  <input type="checkbox" id="f-brand-paid" />
+                  <span>Branded content<span class="hint">Paid partnership — you are promoting a third party&rsquo;s brand or product.</span></span>
+                </label>
+              </div>
+            </div>
+            <p><strong>By posting, you agree to TikTok's Music Usage Confirmation</strong></p>
+            <p class="fineprint">
+              This page only prepares your choices. Posting itself runs through the Emli
+              scheduler on your computer: the scheduler performs the upload with these exact
+              settings and shows the live publishing status there. A published post may take a
+              few minutes to appear on TikTok.
+            </p>
+            <p>
+              <button class="btn" type="submit">Review post request</button>
+            </p>
+          </form>
+          <div id="post-summary" hidden></div>
+        </div>
+
+        <div class="intro" style="padding-top:40px;">
+          <h1 style="font-size:clamp(24px,4vw,30px);">Legal documents</h1>
+          <p>
+            The two documents below govern this service: how you may use Emli, and how Emli
             handles your information.
           </p>
         </div>
@@ -260,6 +453,36 @@
           Both documents were last updated on October 18, 2026. If anything in them is unclear,
           the contact details at the end of each document are the fastest way to reach the operator of Emli.
         </p>
+      </section>
+
+      <!-- ================= CALLBACK (after TikTok authorization) ================= -->
+      <section class="view" id="view-callback" hidden>
+        <div class="panel">
+          <h2>You&rsquo;re back — step 2: finish connecting</h2>
+          <div id="cb-status"></div>
+          <div id="cb-blocks">
+            <div class="field">
+              <label>The full address you were sent back to</label>
+              <div class="copyblock" id="cb-url"></div>
+              <button class="btn secondary" type="button" data-copy="cb-url">Copy the full URL</button>
+            </div>
+            <div class="field">
+              <label>Your one-time authorization code (already URL-decoded)</label>
+              <div class="copyblock" id="cb-code"></div>
+              <button class="btn secondary" type="button" data-copy="cb-code">Copy the code</button>
+            </div>
+            <p>
+              Paste the full URL into the Emli scheduler on your computer when it asks for
+              the address you were redirected to. The scheduler exchanges this one-time code
+              for access tokens on your computer and confirms the connected account. This
+              page only displays the code: it is never stored here and never sent anywhere
+              by this page.
+            </p>
+          </div>
+          <p>
+            <a class="btn secondary" href="index.html#home">Back to Emli home</a>
+          </p>
+        </div>
       </section>
 
       <!-- ================= TERMS OF SERVICE ================= -->
@@ -532,11 +755,25 @@
 
     <footer class="site">
       <div class="wrap">
-        <p class="sans">Emli &mdash; a personal tool for publishing your own content to your own TikTok account. Not affiliated with TikTok or ByteDance.</p>
+        <p class="sans">Emli &mdash; a publishing tool that lets each TikTok creator post their own content to their own account, on their own schedule. Not affiliated with TikTok or ByteDance.</p>
       </div>
     </footer>
 
     <script>
+      /* ============================================================
+         EMLI CONFIG
+         - clientKey is the app's PUBLIC identifier (safe to ship in
+           page source). It is currently the SANDBOX client key
+           placeholder; swap it for the production client key after
+           the app is approved.
+         - The client SECRET must NEVER appear in this file or repo:
+           the token exchange happens only in the Emli scheduler on
+           the creator's own computer.
+         - redirectUri must exactly match the URI registered in the
+           TikTok Developer Portal (Login Kit, Web).
+         ============================================================ */
+      const EMLI_CONFIG = { clientKey: "PASTE_SANDBOX_CLIENT_KEY_HERE", redirectUri: "https://cdn.jsdelivr.net/gh/emli-star/emli-legal/index.html", scopes: "user.info.basic,video.publish,video.upload" };
+
       (function () {
         var routes = {
           "": "home",
@@ -546,25 +783,229 @@
           "#privacy": "privacy"
         };
         var titles = {
-          home: "Emli — Legal Documents",
+          home: "Emli — Creator publishing tool for TikTok",
           terms: "Emli — Terms of Service",
-          privacy: "Emli — Privacy Policy"
+          privacy: "Emli — Privacy Policy",
+          callback: "Emli — Finish connecting"
         };
-        function render() {
-          var route = routes[location.hash] || "home";
-          ["home", "terms", "privacy"].forEach(function (name) {
-            var el = document.getElementById("view-" + name);
-            if (el) el.hidden = name !== route;
+        var views = ["home", "terms", "privacy", "callback"];
+
+        function show(name) {
+          views.forEach(function (v) {
+            var el = document.getElementById("view-" + v);
+            if (el) el.hidden = v !== name;
           });
           document.querySelectorAll("[data-nav]").forEach(function (a) {
-            if (a.getAttribute("data-nav") === route) {
+            if (a.getAttribute("data-nav") === name) {
               a.setAttribute("aria-current", "page");
             } else {
               a.removeAttribute("aria-current");
             }
           });
-          document.title = titles[route];
+          document.title = titles[name] || titles.home;
           window.scrollTo(0, 0);
+        }
+
+        /* ---------- Login Kit: "Continue with TikTok" ---------- */
+        function randomState() {
+          var bytes = new Uint8Array(16);
+          if (window.crypto && window.crypto.getRandomValues) {
+            window.crypto.getRandomValues(bytes);
+          } else {
+            for (var i = 0; i < bytes.length; i++) bytes[i] = Math.floor(Math.random() * 256);
+          }
+          return Array.prototype.map.call(bytes, function (b) {
+            return ("0" + b.toString(16)).slice(-2);
+          }).join("");
+        }
+
+        var connectBtn = document.getElementById("connect-btn");
+        if (connectBtn) {
+          connectBtn.addEventListener("click", function () {
+            var state = randomState();
+            try { sessionStorage.setItem("emli_oauth_state", state); } catch (e) {}
+            var url = "https://www.tiktok.com/v2/auth/authorize/" +
+              "?client_key=" + encodeURIComponent(EMLI_CONFIG.clientKey) +
+              "&scope=" + encodeURIComponent(EMLI_CONFIG.scopes) +
+              "&response_type=code" +
+              "&redirect_uri=" + encodeURIComponent(EMLI_CONFIG.redirectUri) +
+              "&state=" + encodeURIComponent(state) +
+              "&disable_auto_auth=1";
+            window.location.href = url;
+          });
+        }
+
+        /* ---------- OAuth callback handling ----------
+           Display-only by design: the code is read from the address
+           bar and shown for copy-paste into the Emli scheduler. It
+           is never stored, logged, or transmitted by this page. */
+        function rawParam(search, name) {
+          var m = new RegExp("[?&]" + name + "=([^&]*)").exec(search || "");
+          return m ? m[1] : null;
+        }
+
+        function renderCallback(params) {
+          var status = document.getElementById("cb-status");
+          var blocks = document.getElementById("cb-blocks");
+          var err = params.get("error");
+          var errDesc = params.get("error_description");
+          var code = params.get("code");
+          var returnedState = params.get("state");
+          if (err) {
+            status.className = "status-err";
+            status.innerHTML = "";
+            var ep = document.createElement("p");
+            ep.textContent = "TikTok returned an error (" + err + ")" +
+              (errDesc ? ": " + errDesc : "") +
+              ". Nothing was connected. You can close this page and try connecting again from the Emli home page.";
+            status.appendChild(ep);
+            blocks.hidden = true;
+            return;
+          }
+          if (!code) {
+            status.className = "status-err";
+            status.innerHTML = "<p>No authorization code was found in this address. If you reached this page by accident, use the button below to return home and start from \u201cContinue with TikTok\u201d.</p>";
+            blocks.hidden = true;
+            return;
+          }
+          var storedState = null;
+          try { storedState = sessionStorage.getItem("emli_oauth_state"); } catch (e) {}
+          if (storedState && returnedState && storedState !== returnedState) {
+            status.className = "status-err";
+            status.innerHTML = "<p>The security check (state) for this sign-in did not match, so this code should NOT be used. Please return home and connect again.</p>";
+            blocks.hidden = true;
+            return;
+          }
+          var decoded = code;
+          var raw = rawParam(window.location.search, "code");
+          if (raw) {
+            try { decoded = decodeURIComponent(raw.replace(/\+/g, "%20")); } catch (e) { decoded = code; }
+          }
+          var scopes = params.get("scopes");
+          status.className = "status-ok";
+          status.innerHTML = "";
+          var sp = document.createElement("p");
+          sp.textContent = "TikTok authorized Emli" + (scopes ? " for: " + scopes : "") +
+            ". One step left: hand this one-time code to the Emli scheduler to finish connecting.";
+          status.appendChild(sp);
+          document.getElementById("cb-url").textContent = window.location.href;
+          document.getElementById("cb-code").textContent = decoded;
+          blocks.hidden = false;
+        }
+
+        document.querySelectorAll("[data-copy]").forEach(function (btn) {
+          btn.addEventListener("click", function () {
+            var target = document.getElementById(btn.getAttribute("data-copy"));
+            if (!target) return;
+            var text = target.textContent;
+            function done() {
+              var old = btn.textContent;
+              btn.textContent = "Copied ✓";
+              setTimeout(function () { btn.textContent = old; }, 2000);
+            }
+            if (navigator.clipboard && navigator.clipboard.writeText) {
+              navigator.clipboard.writeText(text).then(done, done);
+            } else {
+              var ta = document.createElement("textarea");
+              ta.value = text;
+              document.body.appendChild(ta);
+              ta.select();
+              try { document.execCommand("copy"); } catch (e) {}
+              document.body.removeChild(ta);
+              done();
+            }
+          });
+        });
+
+        /* ---------- Post form (prepares a request; never posts by itself) ---------- */
+        var videoInput = document.getElementById("f-video");
+        var preview = document.getElementById("f-preview");
+        if (videoInput && preview) {
+          videoInput.addEventListener("change", function () {
+            var f = videoInput.files && videoInput.files[0];
+            if (f) {
+              preview.src = URL.createObjectURL(f);
+              preview.hidden = false;
+            } else {
+              preview.hidden = true;
+              preview.removeAttribute("src");
+            }
+          });
+        }
+        var commercial = document.getElementById("f-commercial");
+        var commercialOpts = document.getElementById("commercial-opts");
+        if (commercial && commercialOpts) {
+          commercial.addEventListener("change", function () {
+            commercialOpts.hidden = !commercial.checked;
+          });
+        }
+        var postForm = document.getElementById("post-form");
+        if (postForm) {
+          postForm.addEventListener("submit", function (ev) {
+            ev.preventDefault();
+            var summary = document.getElementById("post-summary");
+            function esc(s) {
+              return String(s).replace(/[&<>"']/g, function (c) {
+                return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c];
+              });
+            }
+            function fail(msg) {
+              summary.hidden = false;
+              summary.innerHTML = '<div class="status-err"><p>' + esc(msg) + "</p></div>";
+              summary.scrollIntoView({ behavior: "smooth", block: "center" });
+            }
+            var file = videoInput && videoInput.files ? videoInput.files[0] : null;
+            var title = document.getElementById("f-title").value.trim();
+            var privacy = document.getElementById("f-privacy").value;
+            if (!privacy) return fail("Please select a privacy level first — Emli never chooses one for you.");
+            var isCommercial = commercial && commercial.checked;
+            var brandOwn = document.getElementById("f-brand-own").checked;
+            var brandPaid = document.getElementById("f-brand-paid").checked;
+            if (isCommercial && !brandOwn && !brandPaid) {
+              return fail("You marked this post as commercial content: please choose \u201cYour brand\u201d, \u201cBranded content\u201d, or both — or turn the commercial-content toggle off.");
+            }
+            if (brandPaid && privacy === "SELF_ONLY") {
+              return fail("Branded content cannot be combined with \u201cOnly me\u201d (private) visibility on TikTok. Please pick a wider privacy level or remove the Branded content selection.");
+            }
+            var privacyLabel = {
+              PUBLIC_TO_EVERYONE: "Everyone (public)",
+              MUTUAL_FOLLOW_FRIENDS: "Friends (mutual followers)",
+              SELF_ONLY: "Only me (private)"
+            }[privacy] || privacy;
+            var rows = "";
+            rows += "<li><strong>Video:</strong> " + esc(file ? file.name + " (" + (file.size / 1048576).toFixed(2) + " MB)" : "no file chosen yet — you will pick the file in the scheduler") + "</li>";
+            rows += "<li><strong>Title:</strong> " + esc(title || "(no title written)") + "</li>";
+            rows += "<li><strong>Privacy:</strong> " + esc(privacyLabel) + " (" + esc(privacy) + ")</li>";
+            rows += "<li><strong>Comments:</strong> " + (document.getElementById("f-allow-comment").checked ? "allowed" : "off") + "</li>";
+            rows += "<li><strong>Duet:</strong> " + (document.getElementById("f-allow-duet").checked ? "allowed" : "off") + "</li>";
+            rows += "<li><strong>Stitch:</strong> " + (document.getElementById("f-allow-stitch").checked ? "allowed" : "off") + "</li>";
+            if (isCommercial) {
+              var kinds = [];
+              if (brandOwn) kinds.push("Your brand (promotional content)");
+              if (brandPaid) kinds.push("Branded content (paid partnership)");
+              rows += "<li><strong>Commercial content:</strong> " + esc(kinds.join(" + ")) + "</li>";
+            } else {
+              rows += "<li><strong>Commercial content:</strong> none declared</li>";
+            }
+            summary.hidden = false;
+            summary.innerHTML =
+              '<div class="status-ok"><p><strong>Post request ready.</strong> Nothing has been posted yet — this page cannot post by itself.</p></div>' +
+              '<ul class="summary-list">' + rows + "</ul>" +
+              "<p>Next step: in the Emli scheduler on your computer, start a post and confirm these same settings. The scheduler uploads the video to your TikTok account and shows the publishing status until TikTok confirms the post; a published post may take a few minutes to appear.</p>" +
+              "<p>By posting, you agree to TikTok's Music Usage Confirmation</p>";
+            summary.scrollIntoView({ behavior: "smooth", block: "center" });
+          });
+        }
+
+        /* ---------- Routing ---------- */
+        function render() {
+          var params = new URLSearchParams(window.location.search);
+          if (params.has("code") || params.has("error")) {
+            renderCallback(params);
+            show("callback");
+            return;
+          }
+          show(routes[location.hash] || "home");
         }
         window.addEventListener("hashchange", render);
         render();
