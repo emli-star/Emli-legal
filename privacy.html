@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Privacy Policy — Emli</title>
+<style>
+      :root {
+        --bg: #fbfaf7;
+        --surface: #ffffff;
+        --ink: #1c1a17;
+        --ink-soft: #4a463f;
+        --ink-faint: #7a756a;
+        --rule: #e3ded2;
+        --accent: #0e5a50;
+        --accent-soft: #e7efec;
+        --shadow: 0 1px 2px rgba(28, 26, 23, 0.05), 0 10px 34px rgba(28, 26, 23, 0.06);
+      }
+      @media (prefers-color-scheme: dark) {
+        :root {
+          --bg: #141311;
+          --surface: #1d1b18;
+          --ink: #ece8df;
+          --ink-soft: #c4beb2;
+          --ink-faint: #948e80;
+          --rule: #33302a;
+          --accent: #6fc7b8;
+          --accent-soft: #223330;
+          --shadow: 0 1px 2px rgba(0, 0, 0, 0.4), 0 10px 34px rgba(0, 0, 0, 0.35);
+        }
+      }
+
+      * { box-sizing: border-box; }
+      html { scroll-behavior: smooth; }
+      @media (prefers-reduced-motion: reduce) {
+        html { scroll-behavior: auto; }
+      }
+      body {
+        margin: 0;
+        background: var(--bg);
+        color: var(--ink);
+        font-family: "Iowan Old Style", "Palatino Linotype", Palatino, Charter, Georgia, serif;
+        font-size: 17px;
+        line-height: 1.65;
+        -webkit-font-smoothing: antialiased;
+      }
+
+      .sans {
+        font-family: ui-sans-system, -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      }
+
+      /* ---------- Top bar ---------- */
+      .topbar {
+        position: sticky;
+        top: 0;
+        z-index: 10;
+        background: color-mix(in srgb, var(--bg) 88%, transparent);
+        backdrop-filter: blur(8px);
+        -webkit-backdrop-filter: blur(8px);
+        border-bottom: 1px solid var(--rule);
+      }
+      .topbar-inner {
+        max-width: 880px;
+        margin: 0 auto;
+        padding: 12px 20px;
+        display: flex;
+        align-items: center;
+        gap: 16px;
+        flex-wrap: wrap;
+      }
+      .brand {
+        font-weight: 700;
+        font-size: 19px;
+        letter-spacing: 0.01em;
+        color: var(--ink);
+        text-decoration: none;
+        margin-right: auto;
+      }
+      .brand span { color: var(--accent); }
+      .topnav { display: flex; gap: 6px; flex-wrap: wrap; }
+      .topnav a {
+        font-size: 13.5px;
+        font-weight: 600;
+        color: var(--ink-soft);
+        text-decoration: none;
+        padding: 7px 12px;
+        border-radius: 999px;
+        border: 1px solid transparent;
+      }
+      .topnav a:hover { color: var(--ink); border-color: var(--rule); }
+      .topnav a[aria-current="page"] {
+        color: var(--accent);
+        background: var(--accent-soft);
+      }
+
+      /* ---------- Layout ---------- */
+      .wrap { max-width: 880px; margin: 0 auto; padding: 0 20px 72px; }
+      .view[hidden] { display: none; }
+
+      /* ---------- Home ---------- */
+      .intro { padding: 56px 0 8px; max-width: 640px; }
+      .intro h1 {
+        font-size: clamp(30px, 5.4vw, 42px);
+        line-height: 1.15;
+        margin: 0 0 16px;
+        font-weight: 700;
+        letter-spacing: -0.01em;
+      }
+      .intro p { color: var(--ink-soft); margin: 0 0 14px; font-size: 18px; }
+      .doc-cards { display: grid; gap: 16px; margin-top: 34px; }
+      @media (min-width: 640px) { .doc-cards { grid-template-columns: 1fr 1fr; } }
+      .doc-card {
+        display: block;
+        background: var(--surface);
+        border: 1px solid var(--rule);
+        border-radius: 10px;
+        padding: 24px 24px 20px;
+        text-decoration: none;
+        color: var(--ink);
+        box-shadow: var(--shadow);
+      }
+      .doc-card:hover { border-color: var(--accent); }
+      .doc-card .kicker {
+        font-size: 12px;
+        font-weight: 700;
+        letter-spacing: 0.14em;
+        text-transform: uppercase;
+        color: var(--accent);
+        margin: 0 0 10px;
+      }
+      .doc-card h2 { font-size: 22px; margin: 0 0 8px; line-height: 1.25; }
+      .doc-card p { color: var(--ink-soft); font-size: 15.5px; margin: 0 0 14px; }
+      .doc-card .open {
+        font-size: 14px;
+        font-weight: 600;
+        color: var(--accent);
+      }
+      .home-note {
+        margin-top: 36px;
+        color: var(--ink-faint);
+        font-size: 15px;
+        max-width: 640px;
+      }
+
+      /* ---------- Legal documents ---------- */
+      .doc { padding-top: 44px; max-width: 720px; }
+      .doc .kicker {
+        font-size: 12px;
+        font-weight: 700;
+        letter-spacing: 0.14em;
+        text-transform: uppercase;
+        color: var(--accent);
+        margin: 0 0 12px;
+      }
+      .doc h1 {
+        font-size: clamp(30px, 5.4vw, 40px);
+        line-height: 1.15;
+        margin: 0 0 10px;
+        letter-spacing: -0.01em;
+      }
+      .doc .meta {
+        color: var(--ink-faint);
+        font-size: 15px;
+        margin: 0 0 8px;
+      }
+      .doc .lede {
+        font-size: 18.5px;
+        color: var(--ink-soft);
+        border-bottom: 1px solid var(--rule);
+        padding-bottom: 26px;
+        margin-bottom: 6px;
+      }
+      .doc h2 {
+        font-size: 20px;
+        margin: 34px 0 8px;
+        line-height: 1.3;
+      }
+      .doc h2 .num { color: var(--accent); margin-right: 8px; }
+      .doc p { margin: 0 0 12px; color: var(--ink); }
+      .doc p, .doc li { color: var(--ink-soft); }
+      .doc p strong, .doc li strong { color: var(--ink); }
+      .doc ul { margin: 0 0 14px; padding-left: 22px; }
+      .doc li { margin-bottom: 6px; }
+      .doc a { color: var(--accent); }
+      .doc .callout {
+        background: var(--accent-soft);
+        border-radius: 8px;
+        padding: 16px 18px;
+        margin: 18px 0;
+        font-size: 16px;
+      }
+      .doc .callout p { margin: 0; color: var(--ink); }
+      .doc-footer {
+        margin-top: 48px;
+        padding-top: 20px;
+        border-top: 1px solid var(--rule);
+        display: flex;
+        justify-content: space-between;
+        gap: 16px;
+        flex-wrap: wrap;
+        font-size: 14.5px;
+      }
+      .doc-footer a { color: var(--accent); text-decoration: none; font-weight: 600; }
+      .doc-footer a:hover { text-decoration: underline; }
+
+      footer.site {
+        border-top: 1px solid var(--rule);
+        margin-top: 8px;
+      }
+      footer.site .wrap { padding-top: 22px; padding-bottom: 30px; }
+      footer.site p { color: var(--ink-faint); font-size: 14px; margin: 0; }
+    </style>
+</head>
+<body>
+<article class="view doc" id="view-privacy" hidden>
+        <p class="kicker sans">Emli &middot; Legal</p>
+        <h1>Privacy Policy</h1>
+        <p class="meta sans">Last updated: October 18, 2026 &middot; Effective: October 18, 2026</p>
+        <p class="lede">
+          This Privacy Policy explains what information the Emli application (&ldquo;Emli&rdquo;, &ldquo;we&rdquo;,
+          &ldquo;us&rdquo;) receives and uses when you connect your TikTok account, and the choices you have
+          about that information. Emli exists for one narrow purpose — publishing your own content to
+          your own TikTok account on your schedule — and its data practices are deliberately limited
+          to that purpose.
+        </p>
+
+        <div class="callout">
+          <p><strong>In short:</strong> Emli uses your TikTok authorization only to upload the videos and
+          photos you create and schedule. Emli does not sell your information, does not use it for
+          advertising, and does not share it with anyone other than TikTok, as needed to publish your
+          content.</p>
+        </div>
+
+        <h2><span class="num">1.</span>Information we receive</h2>
+        <p><strong>From TikTok, when you authorize Emli:</strong></p>
+        <ul>
+          <li>Your TikTok user identifier (open ID) and basic public profile information returned by TikTok&rsquo;s Login Kit, such as your display name and avatar, used only to identify the connected account;</li>
+          <li>An access token and refresh token for the permissions you approved — including the <strong>video.publish</strong> scope — which Emli uses to upload content on your behalf. Emli never receives or stores your TikTok password.</li>
+        </ul>
+        <p><strong>Content and settings you provide:</strong></p>
+        <ul>
+          <li>The videos, photos, and captions you select for scheduled publishing;</li>
+          <li>The dates, times, and related settings in the publishing schedule you create.</li>
+        </ul>
+        <p><strong>Technical records:</strong></p>
+        <ul>
+          <li>Basic operational records of upload activity — for example, whether a scheduled upload succeeded or failed and the resulting post identifier — kept so the Service can confirm your schedule was carried out and diagnose errors.</li>
+        </ul>
+        <p>
+          Emli does not collect information about your followers, your messages, other users, or your
+          activity on TikTok beyond what is listed above.
+        </p>
+
+        <h2><span class="num">2.</span>How we use information</h2>
+        <p>We use the information above only to:</p>
+        <ul>
+          <li>authenticate the connected TikTok account and keep the authorization active;</li>
+          <li>upload your content to your TikTok account at the times you scheduled, through TikTok&rsquo;s official Content Posting API;</li>
+          <li>show you the status of your scheduled and completed uploads;</li>
+          <li>maintain the security and reliability of the Service and comply with legal obligations.</li>
+        </ul>
+        <p>
+          We do not use your information for advertising, marketing, profiling, or any purpose
+          unrelated to operating the Service for you.
+        </p>
+
+        <h2><span class="num">3.</span>How information is shared</h2>
+        <p>
+          Your content and authorization tokens are transmitted to <strong>TikTok</strong> solely so that
+          TikTok can receive and publish your scheduled uploads; TikTok&rsquo;s handling of that content
+          is governed by TikTok&rsquo;s own Privacy Policy. We do not sell, rent, or trade your
+          information, and we do not disclose it to other third parties except where required by law
+          or to protect the rights and safety of the Service and its users.
+        </p>
+
+        <h2><span class="num">4.</span>Storage and security</h2>
+        <p>
+          Authorization tokens are stored in access-controlled storage and are transmitted over
+          encrypted (HTTPS/TLS) connections. Access to stored information is limited to what is
+          necessary to operate the Service. No method of storage or transmission is completely
+          secure, but we apply safeguards proportionate to the limited data Emli handles.
+        </p>
+
+        <h2><span class="num">5.</span>Retention</h2>
+        <p>
+          We keep authorization tokens and your publishing schedule only while your TikTok
+          authorization remains active and you continue to use the Service. Content files are kept
+          only as long as needed to complete their scheduled upload. If you revoke Emli&rsquo;s access
+          in your TikTok settings or stop using the Service, the associated tokens and schedule data
+          are deleted, and any remaining operational records are removed within a reasonable period,
+          except where retention is required by law.
+        </p>
+
+        <h2><span class="num">6.</span>Your choices and rights</h2>
+        <ul>
+          <li><strong>Revoke access at any time.</strong> In TikTok, open Settings &rarr; Security and login &rarr; Manage apps and permissions, and remove Emli. Revocation immediately stops all future uploads.</li>
+          <li><strong>Access and deletion.</strong> Depending on where you live, you may have rights to access, correct, or delete your personal information, and to object to or restrict its processing. Contact us using the details below and we will respond as required by applicable law.</li>
+          <li><strong>Cancel any upload.</strong> You can remove content from your schedule at any time before its scheduled publication.</li>
+        </ul>
+
+        <h2><span class="num">7.</span>Children&rsquo;s privacy</h2>
+        <p>
+          Emli is not directed to, and must not be used by, anyone under 18 years of age. We do not
+          knowingly collect information from minors; if we learn that we have, we will delete it.
+        </p>
+
+        <h2><span class="num">8.</span>International use</h2>
+        <p>
+          Information handled by Emli may be processed in the country where the Service is operated.
+          By using the Service, you understand that your information will be handled as described in
+          this Policy.
+        </p>
+
+        <h2><span class="num">9.</span>Changes to this Policy</h2>
+        <p>
+          We may update this Privacy Policy from time to time. The current version will always be
+          posted on this page with its &ldquo;Last updated&rdquo; date. If a change materially affects how
+          your information is handled, we will reflect it here before it takes effect.
+        </p>
+
+        <h2><span class="num">10.</span>Contact</h2>
+        <p>
+          Questions about this Privacy Policy, or requests about your information, can be sent to the
+          operator of Emli at the email address listed for this application in the TikTok Developer
+          Portal.
+        </p>
+
+        <div class="doc-footer sans">
+          <a href="#terms">Read the Terms of Service &rarr;</a>
+          <a href="#home">&larr; All documents</a>
+        </div>
+      </article>
+</body>
+</html>
